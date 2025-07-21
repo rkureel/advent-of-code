@@ -32,10 +32,10 @@ impl SolutionProvider {
     pub fn get_solution(&self, day: u8) -> Result<Solution> {
         let input: String = self.input_provider.get_input(day)
             .expect("Unable to read input");
-        self.get_solution_for_day(day, input)    
+        self.get_solution_for_day(day, &input)    
     }
 
-    fn get_solution_for_day(&self, day: u8, input: String) -> Result<Solution> {
+    fn get_solution_for_day(&self, day: u8, input: &str) -> Result<Solution> {
         match day {
             1 => day_1::solve(input),
             _ => Err(anyhow!("Solution not implemented for day"))
