@@ -1,7 +1,7 @@
 use anyhow::Result;
 
-pub mod reader;
+pub mod file_reader;
 
-pub trait InputProvider {
-     fn get_input(&self, day: u8) -> Result<String>;
+pub trait ProvideInput {
+    fn get_input_as_string(&self, day: u8) -> Result<String>;
 }

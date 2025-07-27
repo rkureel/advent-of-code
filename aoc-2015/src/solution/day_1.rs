@@ -18,7 +18,7 @@ fn solve_part_1(input: &str) -> Option<String> {
             '(' => floor += 1,
             ')' => floor -= 1,
             _ => {
-                panic!("Unknown character in input file")
+                panic!("Unknown character in input file: {c}")
             }
         }
     }

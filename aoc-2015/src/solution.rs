@@ -1,7 +1,8 @@
 use std::fmt::Display;
 
 use anyhow::{anyhow, Result};
-use crate::input::InputProvider;
+
+use crate::input::ProvideInput;
 
 mod day_1;
 
@@ -19,18 +20,18 @@ impl Display for Solution {
 }
 
 pub struct SolutionProvider {
-    input_provider: Box<dyn InputProvider>
+    input_provider: Box<dyn ProvideInput>
 }
 
 impl SolutionProvider {
-    pub fn new(input_provider: Box<dyn InputProvider>) -> Self {
+    pub fn new(input_provider: Box<dyn ProvideInput>) -> Self {
         Self { 
             input_provider: input_provider 
         }
     }
 
     pub fn get_solution(&self, day: u8) -> Result<Solution> {
-        let input: String = self.input_provider.get_input(day)
+        let input: String = self.input_provider.get_input_as_string(day)
             .expect("Unable to read input");
         self.get_solution_for_day(day, &input)    
     }
