@@ -1,14 +1,22 @@
-use std::{fs::File, io::{BufReader, Read}};
+use std::{
+    fs::File,
+    io::{BufReader, Read},
+};
 
 use anyhow::Result;
 
-use crate::input::ProvideInput;
+use crate::input::{Input, InputProvider};
 
 pub struct BufFileReader {}
 
-impl ProvideInput for BufFileReader {
+impl BufFileReader {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
 
-    fn get_input_as_string(&self, day: u8) -> Result<String> {
+impl InputProvider for BufFileReader {
+    fn get_input(&self, day: u8) -> Result<Input> {
         let file_path: String = get_file_path(day);
 
         let file: File = File::open(file_path)?;
@@ -16,9 +24,9 @@ impl ProvideInput for BufFileReader {
 
         let mut contents: String = String::new();
         reader.read_to_string(&mut contents)?;
-        return Ok(contents.trim().to_owned());
+        let input: Input = Input::new(&contents.trim());
+        return Ok(input);
     }
-
 }
 
 fn get_file_path(day: u8) -> String {
