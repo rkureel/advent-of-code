@@ -1,52 +1,47 @@
-use std::fmt::Display;
+use anyhow::{Result, anyhow};
 
-use anyhow::{anyhow, Result};
-
-use crate::input::ProvideInput;
+use crate::input::Input;
 
 mod day_1;
 
+pub trait SolutionProvider {
+    fn provide_solution(&self, day: u8, input: &Input) -> Result<Solution>;
+}
+
 pub struct Solution {
     pub part_1: Option<String>,
-    pub part_2: Option<String>
+    pub part_2: Option<String>,
 }
 
-impl Display for Solution {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "Solution for part 1: [{}]\nSolution for part 2: [{}]",
-            get_displayed_solution_for_part(&self.part_1),
-            get_displayed_solution_for_part(&self.part_2))
+impl Solution {
+    pub fn print(&self) {
+        let part_1_solution: String = get_displayed_solution_for_part(&self.part_1);
+        let part_2_solution: String = get_displayed_solution_for_part(&self.part_2);
+        println!("Part 1: [{}]", &part_1_solution);
+        println!("Part 2: [{}]", &part_2_solution);
     }
 }
 
-pub struct SolutionProvider {
-    input_provider: Box<dyn ProvideInput>
+pub struct DefaultSolutionProvider {}
+
+impl DefaultSolutionProvider {
+    pub fn new() -> Self {
+        Self {}
+    }
 }
 
-impl SolutionProvider {
-    pub fn new(input_provider: Box<dyn ProvideInput>) -> Self {
-        Self { 
-            input_provider: input_provider 
-        }
-    }
-
-    pub fn get_solution(&self, day: u8) -> Result<Solution> {
-        let input: String = self.input_provider.get_input_as_string(day)
-            .expect("Unable to read input");
-        self.get_solution_for_day(day, &input)    
-    }
-
-    fn get_solution_for_day(&self, day: u8, input: &str) -> Result<Solution> {
+impl SolutionProvider for DefaultSolutionProvider {
+    fn provide_solution(&self, day: u8, input: &Input) -> Result<Solution> {
         match day {
             1 => day_1::solve(input),
-            _ => Err(anyhow!("Solution not implemented for day"))
+            _ => Err(anyhow!("Solution not implemented for day")),
         }
     }
 }
 
 fn get_displayed_solution_for_part(optional_output: &Option<String>) -> String {
-   match optional_output {
-       Some(output) => output.clone(),
-       None => String::from("NOT_IMPLEMENTED")
-   } 
+    match optional_output {
+        Some(output) => output.clone(),
+        None => String::from("NOT_IMPLEMENTED"),
+    }
 }

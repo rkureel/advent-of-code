@@ -2,6 +2,22 @@ use anyhow::Result;
 
 pub mod file_reader;
 
-pub trait ProvideInput {
-    fn get_input_as_string(&self, day: u8) -> Result<String>;
+pub struct Input {
+    input: String,
+}
+
+impl Input {
+    pub fn new(s: &str) -> Self {
+        return Self {
+            input: s.to_owned(),
+        };
+    }
+
+    pub fn get_str(&self) -> &str {
+        return &self.input;
+    }
+}
+
+pub trait InputProvider {
+    fn get_input(&self, day: u8) -> Result<Input>;
 }
