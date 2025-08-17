@@ -3,6 +3,7 @@ use anyhow::{Result, anyhow};
 use crate::input::Input;
 
 mod day_1;
+mod day_2;
 
 pub trait SolutionProvider {
     fn provide_solution(&self, day: u8, input: &Input) -> Result<Solution>;
@@ -34,6 +35,7 @@ impl SolutionProvider for DefaultSolutionProvider {
     fn provide_solution(&self, day: u8, input: &Input) -> Result<Solution> {
         match day {
             1 => day_1::solve(input),
+            2 => day_2::solve(input),
             _ => Err(anyhow!("Solution not implemented for day")),
         }
     }
