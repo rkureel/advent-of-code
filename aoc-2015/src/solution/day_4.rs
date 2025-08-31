@@ -29,7 +29,20 @@ fn solve_part_1(input: &str) -> Option<String> {
 }
 
 fn solve_part_2(input: &str) -> Option<String> {
-    Option::None
+    let mut counter: u64 = 0;
+    loop {
+        let mut message: String = String::from(input);
+        message.push_str(&counter.to_string());
+        let md5_hash:String = get_md5_hash(&message);
+
+        println!("counter: {}; md5: {}", counter, md5_hash);
+
+        if md5_hash.starts_with("000000") {
+            break;
+        }
+        counter += 1;
+    }
+    Some(counter.to_string())
 }
 
 fn get_md5_hash(message: &str) -> String {
