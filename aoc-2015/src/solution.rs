@@ -5,6 +5,7 @@ use crate::input::Input;
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_4;
 
 pub trait SolutionProvider {
     fn provide_solution(&self, day: u8, input: &Input) -> Result<Solution>;
@@ -38,6 +39,7 @@ impl SolutionProvider for DefaultSolutionProvider {
             1 => day_1::solve(input),
             2 => day_2::solve(input),
             3 => day_3::solve(input),
+            4 => day_4::solve(input),
             _ => Err(anyhow!("Solution not implemented for day")),
         }
     }
@@ -49,3 +51,4 @@ fn get_displayed_solution_for_part(optional_output: &Option<String>) -> String {
         None => String::from("NOT_IMPLEMENTED"),
     }
 }
+
